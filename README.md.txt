@@ -1,0 +1,1 @@
+Generic, enumerable linked list implementation with common algorithmic operations on the list.  
