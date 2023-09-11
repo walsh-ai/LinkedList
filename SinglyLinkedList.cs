@@ -9,12 +9,12 @@ using System.Transactions;
 /// <typeparam name="T"></typeparam>
 public class SinglyLinkedList<T>:ICollection<T>
 {
-    #region private variables
+    #region private fields
     // Track the first and last node and
     // list length
-    private ListNode<T> firstNode;
-    private ListNode<T> lastNode;
-    private int count; 
+    protected ListNode<T>? firstNode;
+    protected ListNode<T>? lastNode;
+    protected int count; 
     #endregion 
     
     #region ICollection properties 
@@ -24,14 +24,14 @@ public class SinglyLinkedList<T>:ICollection<T>
     /// <summary>
     /// Property to mask get first node in the list
     /// </summary>
-    public ListNode<T> FirstNode {
+    public ListNode<T>? FirstNode {
         get { return firstNode; }
     }
 
     /// <summary>
     /// Property to mask get last node in the list 
     /// </summary>
-    public ListNode<T> LastNode {
+    public ListNode<T>? LastNode {
         get {return lastNode; }
     }
 
@@ -57,6 +57,10 @@ public class SinglyLinkedList<T>:ICollection<T>
             // Exception where index is less than 0 (first node)
             if (index < 0)
                 throw new ArgumentOutOfRangeException(); 
+
+            if (IsEmpty) 
+                throw new ApplicationException("Cannot index empty list."); 
+            
             // Begin iteration from first node with reference object 
             // Traverse to the next node until index or null reference 
             ListNode<T> currentNode = firstNode;
@@ -65,7 +69,7 @@ public class SinglyLinkedList<T>:ICollection<T>
                     throw new ArgumentOutOfRangeException(); 
                 currentNode = currentNode.Next; 
             }
-        return currentNode.Item; 
+            return currentNode.Item; 
         }
     }
 
@@ -91,7 +95,6 @@ public class SinglyLinkedList<T>:ICollection<T>
     public SinglyLinkedList() {
         count = 0; 
         IsReadOnly = false; 
-        firstNode = lastNode = null; 
     }
 
     /// <summary>
@@ -140,6 +143,9 @@ public class SinglyLinkedList<T>:ICollection<T>
     /// <param name="array"></param>
     /// <param name="index"></param>
     public void CopyTo(T[] array, int index) {
+        if (IsEmpty) 
+            return; 
+        
         if (array == null)
             throw new ArgumentNullException("Destination array reference for CopyTo() is null."); 
 
@@ -165,7 +171,7 @@ public class SinglyLinkedList<T>:ICollection<T>
         /// Thread safe method to add a node at the front of list 
         /// </summary>
         /// <param name="item"></param>
-        public void InsertAtFront(T item) {
+        public virtual void InsertAtFront(T item) {
             lock(this) {
                 if (IsEmpty) 
                     firstNode = lastNode = new ListNode<T>(item); 
@@ -179,7 +185,7 @@ public class SinglyLinkedList<T>:ICollection<T>
         /// Thread safe method to add a node at the back of the list
         /// </summary>
         /// <param name="item"></param>
-        public void InsertAtBack(T item) {
+        public virtual void InsertAtBack(T item) {
             // Lock object for race conditions 
             lock(this) {
                 if (IsEmpty) 
@@ -196,13 +202,13 @@ public class SinglyLinkedList<T>:ICollection<T>
         /// Should this return null? In order to make the code explicit 
         /// this method will return an exception when removing from an empty list 
         /// </summary>
-        public T RemoveFromFront() {
+        public virtual T RemoveFromFront() {
             lock(this) {
                 if (IsEmpty) 
-                    throw new ApplicationException("Cannot RemoveFromFront of empty list.");
+                    throw new ApplicationException("Cannot remove from empty list.");
                 
                 T data = firstNode.Item; 
-
+                
                 if (firstNode == lastNode) 
                     firstNode = lastNode = null; 
                 else 
@@ -218,10 +224,10 @@ public class SinglyLinkedList<T>:ICollection<T>
         /// </summary>
         /// <returns></returns>
         /// <exception cref="ApplicationException"></exception>
-        public T RemoveFromBack() {
+        public virtual T RemoveFromBack() {
             lock(this) {
                 if (IsEmpty) 
-                    throw new ApplicationException("Cannot RemoveFromBack of empty list."); 
+                    throw new ApplicationException("Cannot remove from empty list."); 
                 
                 T data = lastNode.Item;
 
@@ -247,7 +253,7 @@ public class SinglyLinkedList<T>:ICollection<T>
         /// <param name="index"></param>
         /// <param name="item"></param>
         /// <exception cref="ApplicationException"></exception>
-        public void InsertAt(int index, T item) {
+        public virtual void InsertAt(int index, T item) {
             lock(this) {
                 if (index > count || index < 0) 
                     throw new ApplicationException($"Insert at index {index} out of list range."); 
@@ -274,7 +280,7 @@ public class SinglyLinkedList<T>:ICollection<T>
         /// <param name="index"></param>
         /// <returns></returns>
         /// <exception cref="ApplicationException"></exception>
-        public T RemoveAt(int index) {
+        public virtual T RemoveAt(int index) {
             lock (this) {
                 if (index > count || index < 0) 
                     throw new ApplicationException($"Index {index} out of list range.");
@@ -307,7 +313,7 @@ public class SinglyLinkedList<T>:ICollection<T>
         /// <param name="item"></param>
         /// <returns>Boolean: True if item found and removed, false otherwise.</returns>
         /// <exception cref="ApplicationException"></exception>
-        public bool Remove(T item) {
+        public virtual bool Remove(T item) {
             lock (this) {
                 if (IsEmpty) 
                     throw new ApplicationException("Cannot remove from empty list");
@@ -379,9 +385,9 @@ public class SinglyLinkedList<T>:ICollection<T>
             lock (this) {
                 ListNode<T> current = firstNode; 
                 while (current != null) {
-                    if (current.Item.ToString().Equals(item.ToString())) {
+                    if (current.Item.ToString().Equals(item.ToString())) 
                         return true; 
-                    }
+                    current = current.Next; 
                 }
 
                 return false; 
@@ -392,7 +398,7 @@ public class SinglyLinkedList<T>:ICollection<T>
         /// Thread safe
         /// Reverse the linked list element order 
         /// </summary>
-        public void Reverse() {
+        public virtual void Reverse() {
             lock (this) {
                 if (IsEmpty || firstNode.Next == null) 
                     return; 
@@ -429,25 +435,31 @@ public class SinglyLinkedList<T>:ICollection<T>
         /// </summary>
         /// <returns></returns>
         public bool HasCycle() {
-            ListNode<T> slow = firstNode; 
-            ListNode<T> fast = firstNode; 
+            lock(this) {
+                if (IsEmpty) 
+                    return false; 
+                
+                ListNode<T> slow = firstNode; 
+                ListNode<T> fast = firstNode; 
 
-            while (fast.Next != null && fast.Next.Next != null) {
-                slow = slow.Next; 
-                fast = fast.Next.Next; 
+                while (fast.Next != null && fast.Next.Next != null) {
+                    slow = slow.Next; 
+                    fast = fast.Next.Next; 
 
-                if (slow == fast) 
-                    return true; 
+                    if (slow == fast) 
+                        return true; 
+                }
+                
+                return false; 
             }
-            
-            return false; 
         }
 
         /// <summary>
         /// Remove duplicate elements from the sorted
         /// list
+        /// ** TO DO : Implement sorting the list 
         /// </summary>
-        public void RemoveSortedDuplicates() {
+        public virtual void RemoveSortedDuplicates() {
             lock (this) {
                 ListNode<T> current = firstNode; 
                 ListNode<T> lastUnique = firstNode; 

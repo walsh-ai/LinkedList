@@ -5,14 +5,14 @@
 
 public class ListNode<T> {
     // Reference to the next node 
-    private ListNode<T> next;
+    protected ListNode<T>? next; 
     // Item stored in list node
-    private T item; 
+    protected T item; 
 
     /// <summary>
     /// Public property to get, set reference to next node 
     /// </summary>
-    public ListNode<T> Next { 
+    public ListNode<T>? Next { 
         get { return next; } 
         set { next = value; }
     }
@@ -36,7 +36,7 @@ public class ListNode<T> {
     /// <summary>
     /// Constructor with item and the next node specified 
     /// </summary>
-    public ListNode(T item, ListNode<T> next) {
+    public ListNode(T item, ListNode<T>? next) {
         this.item = item;
         this.next = next; 
     }

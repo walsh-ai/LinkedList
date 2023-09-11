@@ -1,0 +1,14 @@
+C:\Users\walsh\OneDrive\Documents\_wkspace\csharp_prep\linked_list\bin\Debug\net7.0\linked_list.exe
+C:\Users\walsh\OneDrive\Documents\_wkspace\csharp_prep\linked_list\bin\Debug\net7.0\linked_list.deps.json
+C:\Users\walsh\OneDrive\Documents\_wkspace\csharp_prep\linked_list\bin\Debug\net7.0\linked_list.runtimeconfig.json
+C:\Users\walsh\OneDrive\Documents\_wkspace\csharp_prep\linked_list\bin\Debug\net7.0\linked_list.dll
+C:\Users\walsh\OneDrive\Documents\_wkspace\csharp_prep\linked_list\bin\Debug\net7.0\linked_list.pdb
+C:\Users\walsh\OneDrive\Documents\_wkspace\csharp_prep\linked_list\obj\Debug\net7.0\linked_list.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\walsh\OneDrive\Documents\_wkspace\csharp_prep\linked_list\obj\Debug\net7.0\linked_list.AssemblyInfoInputs.cache
+C:\Users\walsh\OneDrive\Documents\_wkspace\csharp_prep\linked_list\obj\Debug\net7.0\linked_list.AssemblyInfo.cs
+C:\Users\walsh\OneDrive\Documents\_wkspace\csharp_prep\linked_list\obj\Debug\net7.0\linked_list.csproj.CoreCompileInputs.cache
+C:\Users\walsh\OneDrive\Documents\_wkspace\csharp_prep\linked_list\obj\Debug\net7.0\linked_list.dll
+C:\Users\walsh\OneDrive\Documents\_wkspace\csharp_prep\linked_list\obj\Debug\net7.0\refint\linked_list.dll
+C:\Users\walsh\OneDrive\Documents\_wkspace\csharp_prep\linked_list\obj\Debug\net7.0\linked_list.pdb
+C:\Users\walsh\OneDrive\Documents\_wkspace\csharp_prep\linked_list\obj\Debug\net7.0\linked_list.genruntimeconfig.cache
+C:\Users\walsh\OneDrive\Documents\_wkspace\csharp_prep\linked_list\obj\Debug\net7.0\ref\linked_list.dll
